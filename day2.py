@@ -2,6 +2,7 @@ from telethon import TelegramClient, events, sync
 import tiktok as mytiktok
 import os
 import re
+import time
 
 class TelegramBot:
     def __init__(self, api_id, api_hash, bot_token, user_id):
@@ -19,6 +20,9 @@ class TelegramBot:
     
     def get_all_links(self, message):
         return re.findall(r'(https?://[^\s]+)', message)
+    def append_log(self, message):
+        with open("log.txt", "a") as f:
+            f.write(f"{message}\n") 
         
 
     async def reply_video(self, event):
@@ -52,6 +56,11 @@ class TelegramBot:
             print(f"Error: {e}")
             reply_message = "An error occurred. Please try again later."
             await event.reply(reply_message)
+        finally:
+            message1=f"""{sender.username or sender.id} sent: {message} at {time.ctime()}"""
+            self.append_log(message1)
+    
+
             
         
         
