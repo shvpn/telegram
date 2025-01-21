@@ -24,8 +24,8 @@ async def auto_reply():
         # Get the sender
         sender = await event.get_sender()
         
-        # Avoid replying to yourself or channels
-        if sender and not sender.bot and not event.is_channel:
+        # Avoid replying to yourself or channels or groups
+        if sender and not sender.bot and not event.is_channel and not event.is_group:
             reply_message = "This is an auto-reply. I'm currently unavailable. Perhaps 15 minutes later I will be available."
             await event.reply(reply_message)
             print(f"Replied to {sender.username or sender.id} with: {reply_message}")
